@@ -11,6 +11,7 @@ define(['jquery', 'backbone'], function($, Backbone){
       time = d.getTime();
     }
   });
+  
   var State = Backbone.Model.extend({
     expanded: false
   });
@@ -19,24 +20,67 @@ define(['jquery', 'backbone'], function($, Backbone){
     
     el: '#page-nav',
     
-    initialize: function(options){
+    initialize: function (options) {
       var self = this;
-      this.dropDowns = [];
+      this.state = new State();
+      
+      /* Set up State listener */
+      this.state.on('change:expanded', function (model, value) {
+        console.log(model);
+      });
+      
+      /* Set up Dropdowns */
+      this.dropdowns = [];
       this.$el.children('.dropdown').each(function(i, el){
-        self.dropDowns.push(new DropdownView({
+        var dropdown = new DropdownView({
           el: el,
           parent: self,
           index: i
-        }));
+        });
+        /* Set initial position */
+        dropdown.$el.css({
+          top: `calc(${dropdown.index * 80}px)`
+        });
+        /* Set up CLICK event handler */
+        dropdown.on('click', function (clicked) {
+          var expanded = !clicked.state.get('expanded');
+          clicked.state.set({expanded: expanded});
+          
+          /* Contract all dropdowns except clicked */
+          self.dropdowns.forEach(function (dd) {
+            if (dd !== clicked) {
+              dd.state.set({expanded: false});
+            }
+          });
+          if (expanded) {  
+            /* Set positions of all dropdowns below clicked */
+            self.dropdowns.slice(clicked.index+1).forEach(function (dd) {
+              dd.$el.css({
+                top: `calc(100% - ${dd.index*80}px)`
+              });
+            });
+            /* Set position of clicked */
+            clicked.$el.css({
+              top: clicked.index*clicked.height + 'px'
+            });            
+            /* Change state */
+            self.state.set({expanded: true});
+          }
+          else {            
+            /* Change state */
+            self.state.set({expanded: false});
+          }
+        });
+        self.dropdowns.push(dropdown);
       });
     },
     
-    expand: function(){
+    expand: function () {
       this.$el.removeClass('page-nav-contracted');
       this.$el.addClass('page-nav-expanded');
     },
     
-    contract: function(){
+    contract: function () {
       this.$el.removeClass('page-nav-expanded');
       this.$el.addClass('page-nav-contracted');
     }
@@ -46,39 +90,26 @@ define(['jquery', 'backbone'], function($, Backbone){
   var DropdownView = Backbone.View.extend({
     
     events: {
-      'click': 'toggleDropdown'
+      'click': 'click'
+    },
+    
+    click: function (e) {
+      this.trigger('click', this);
     },
     
     initialize: function(options){
       this.setElement(options.el);
       
-      this.parent = options.parent;
       this.index = options.index;
       this.height = this.$el.outerHeight();
-      this.expandedTop = this.index * this.height;
-      
-      /* Set initial position */
-      this.$el.css({
-        top: `calc(${this.index * 80}px)`
-      });
       
       this.state = new State();
       this.state.on('change:expanded', function (model, value) {
         if (this.state.get('expanded')) {
-          /* Contract all dropdowns */
-          this.parent.dropDowns.forEach(function (dropDown) {
-            dropDown.contractDropdown();
-          });
-          /* Set positions of all dropdowns below this one */
-          this.parent.dropDowns.slice(this.index+1).forEach(function (dropDown) {
-            dropDown.$el.css({
-              top: `calc(100% - ${dropDown.index*80}px)`
-            });
-          });
-          this.expandDropdown();
+          this.expand();
         }
         else {
-          this.contractDropdown();
+          this.contract();
         }
       }, this);
     },
@@ -89,15 +120,11 @@ define(['jquery', 'backbone'], function($, Backbone){
       });
     },
     
-    expandDropdown: function(){
-      this.parent.expand();
+    expand: function(){
       this.$el.addClass('nav-button-expanded');
-      this.$el.css({
-        top: this.expandedTop + 'px'
-      });
     },
     
-    contractDropdown: function(){
+    contract: function(){
       this.$el.removeClass('nav-button-expanded');
     }
     

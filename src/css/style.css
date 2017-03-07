@@ -46,10 +46,10 @@ body {
 }
 
 .nav-button > span::after {
-  content: '\1403';
+  content: '\25C0';
 }
 .nav-button-expanded > span::after {
-  content: '\1401';
+  content: '\25BC';
 }
 
 .dropdown-content {
