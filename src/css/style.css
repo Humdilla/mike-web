@@ -29,13 +29,6 @@ body {
   transition: top 0.5s;
 }
 
-.page-nav-contracted {
-  top: calc(100% - 160px);
-}
-.page-nav-expanded {
-  top: 5rem;
-}
-
 .nav-button {
   position: absolute;
   width: 100%;

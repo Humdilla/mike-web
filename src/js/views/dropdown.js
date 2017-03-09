@@ -26,7 +26,13 @@ define(['jquery', 'backbone'], function($, Backbone){
       
       /* Set up State listener */
       this.state.on('change:expanded', function (model, value) {
-        console.log(model);
+        var expanded = model.changed.expanded;
+        if (expanded) {
+          self.expand();
+        }
+        else {
+          self.contract();
+        }
       });
       
       /* Set up Dropdowns */
@@ -45,6 +51,10 @@ define(['jquery', 'backbone'], function($, Backbone){
         dropdown.on('click', function (clicked) {
           var expanded = !clicked.state.get('expanded');
           clicked.state.set({expanded: expanded});
+          
+          /* If click closed a dropdown, contract the container */
+          if (!expanded)
+            self.state.set({expanded: expanded});
           
           /* Contract all dropdowns except clicked */
           self.dropdowns.forEach(function (dd) {
@@ -73,6 +83,8 @@ define(['jquery', 'backbone'], function($, Backbone){
         });
         self.dropdowns.push(dropdown);
       });
+      /* Set up initial styling */
+      this.height = this.dropdowns.length * this.dropdowns[0].height;
     },
     
     expand: function () {

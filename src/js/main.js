@@ -11,7 +11,6 @@ require.config({
 /* Load views */
 require(
   [
-    'views/app',
     'views/dropdown'
   ],
   function(){
