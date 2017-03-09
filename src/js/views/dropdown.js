@@ -83,8 +83,7 @@ define(['jquery', 'backbone'], function($, Backbone){
         });
         self.dropdowns.push(dropdown);
       });
-      /* Set up initial styling */
-      this.height = this.dropdowns.length * this.dropdowns[0].height;
+      this.contract();
     },
     
     expand: function () {
