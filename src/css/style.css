@@ -20,20 +20,39 @@ body {
 }
 
 
-#page-nav {
-  position: fixed;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  bottom: 0px;
-  transition: top 0.5s;
+nav {
+  position: relative;
+  overflow-x: hidden;
+  font-size: 2.5em;
 }
 
-.page-nav-contracted {
-  top: calc(100% - 2 * 20vw);
+.clearfix:after {
+  content: ' ';
+  display: block;
+  height: 0px;
+  clear: both;
 }
-.page-nav-expanded {
-  top: 5rem;
+
+.title {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.hamburger {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  vertical-align: middle;
+  right: 0px;
+  display: inline-block;
+  transition: transform 0.25s;
+  color: red;
+}
+.hamburger:before {
+  content: '\2630';
+}
+.hamburger:hover {
+  transform: translateY(-50%) rotate(90deg);
 }
 
 .nav-button {
@@ -57,21 +76,12 @@ body {
   width: 100%;
 }
 
-#app {
+main {
   display: flex;
   flex-wrap: wrap;
   background-color: #fff0a2;
   height: calc(100vh - 2 * 20vw);
   overflow-y: scroll;
-}
-
-.title {
-  display: inline;
-  width: 100%;
-  text-align: center;
-  font-size: 2.5rem;
-  height: 5rem;
-  padding-top: 1.125rem;
 }
 
 .left-col {
