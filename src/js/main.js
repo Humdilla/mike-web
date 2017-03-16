@@ -11,9 +11,18 @@ require.config({
 /* Load views */
 require(
   [
-    'views/dropdown'
+    'views/hamburger'
   ],
-  function(){
+  function(Hamburger){
+    new Hamburger({
+      button: '#hamburger-button',
+      content: '#hamburger-content',
+      buttonOpenClass: 'hamburger-button-open',
+      buttonClosedClass: 'hamburger-button-closed',
+      contentOpenClass: '',
+      contentClosedClass: ''
+    });
+    
     console.log('Views loaded.');
   }
 );
