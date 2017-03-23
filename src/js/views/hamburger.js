@@ -42,18 +42,21 @@ define(['jquery', 'backbone'], function($, Backbone){
       this.buttonClosedClass = options.buttonClosedClass;
       this.contentOpenClass = options.contentOpenClass;
       this.contentClosedClass = options.contentClosedClass;
-      
       this.close();
     },
     
     open: function () {
       this.$el.removeClass(this.buttonClosedClass);
       this.$el.addClass(this.buttonOpenClass);
+      this.$content.removeClass(this.contentClosedClass);
+      this.$content.addClass(this.contentOpenClass);
     },
     
     close: function () {
       this.$el.removeClass(this.buttonOpenClass);
       this.$el.addClass(this.buttonClosedClass);
+      this.$content.removeClass(this.contentOpenClass);
+      this.$content.addClass(this.contentClosedClass);
     },
     
     click: function (e) {

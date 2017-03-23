@@ -19,8 +19,8 @@ require(
       content: '#hamburger-content',
       buttonOpenClass: 'hamburger-button-open',
       buttonClosedClass: 'hamburger-button-closed',
-      contentOpenClass: '',
-      contentClosedClass: ''
+      contentOpenClass: 'hamburger-content-open',
+      contentClosedClass: 'hamburger-content-closed'
     });
     
     console.log('Views loaded.');
