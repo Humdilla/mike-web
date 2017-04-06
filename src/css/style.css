@@ -14,11 +14,14 @@ body {
 nav {
   top: 0px;
   position: fixed;
+  display: flex;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   font-size: 2.5em;
+  height: 6rem;
   color: #fff0a2;
   background-image: url('../img/space-and-stars.jpg');
+  z-index: 1;
 }
 
 
@@ -30,9 +33,9 @@ nav {
 }
 
 .title {
-  display: table-cell;
+  display: inline-block;
   vertical-align: middle;
-  height: 6rem;
+  margin: auto 0;
 }
 
 .hamburger:before {
@@ -40,20 +43,20 @@ nav {
 }
 
 #hamburger-button {
-  position: absolute;
-  top: 50%;
   vertical-align: middle;
-  right: 0px;
   display: inline-block;
   transition: transform 0.15s;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
   margin-right: 2.5%;
   cursor: pointer;
 }
 .hamburger-button-open {
-  transform: translateY(-50%) rotate(90deg);
+  transform: rotate(90deg);
 }
 .hamburger-button-closed {
-  transform: translateY(-50%) rotate(0deg);
+  transform: rotate(0deg);
 }
 
 #hamburger-content {
@@ -89,29 +92,68 @@ main {
   flex-wrap: wrap;
 }
 
-.foreground-img {
-  width: 100%;
-  height: 100vw;
-  border: 1px solid black;
-  -webkit-appearance: none;
-}
-
 #left-col {
   width: 100%;
 }
 
+#foreground-img {
+  position: relative;
+  width: 100%;
+  border: 1px solid black;
+}
+#foreground-img:before {
+  content: " ";
+  display: block;
+  padding-top: 100%;
+}
+#foreground-img > img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
 
-@media screen and (min-width : 415px) and (max-width : 768px) {
-  #left-col {
-    order: -1;
-    width: 30%;
-    height: calc(100vh - 6rem);
-    overflow-y: scroll;
+.social-media-link {
+  display: none;
+}
+.social-media-link > button {
+  width: 100%;
+  border: none;
+  font-size: 1em;
+}
+
+#twitter-container {
+  width: 100%;
+}
+
+@media screen and (min-width : 415px) {
+  .title {
+    margin-left: 20px;
   }
   
-  .foreground-img {
-    width: initial;
-    height: 50vh;
+  #left-col {
+    position: fixed;
+    width: 30%;
+  }
+  
+  #foreground-img {
+    margin-bottom: 30px;
+  }
+  
+  .social-media-link {
+    display: initial;
+  }
+  
+  #twitter-container {
+    position: relative;
+    left: 30%;
+    width: 70%;
+    max-width: 600px;
+  }
+}
+/* margin adjustment */
+@media screen and (min-width : 875px) {
+  #twitter-container {
+    left: calc(30% + ((70% - 600px) / 2));
   }
 }
 
@@ -122,13 +164,21 @@ main {
   
   #hamburger-content {
     position: static;
-    display: inline-block;
+    display: flex;
     height: auto;
     width: auto;
     font-size: 0.5em;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width : 1019px) {
+  #left-col {
+    max-width: 300px;
+    margin-left: calc(30% - 300px);
   }
   
-  .nav-button {
-    display: table-cell;
+  #twitter-container {
+    left: calc(300px + ((100% - 300px - 600px) / 2));
   }
 }
